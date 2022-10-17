@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# install nginx
-
-apt-get install nginx -y
-cat nginx.conf > /etc/nginx/sites-available/default
+# bash script to install nginx
+apt-get -y update
+apt-get -y install nginx
+mv /usr/share/nginx/html/index.html /usr/share/nginx/html/index.txt
+echo "Hello World!" > /usr/share/nginx/html/index.html
 service nginx restart
