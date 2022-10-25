@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#Install and configure HAproxy on lb-01 server
+
+sudo apt-get update
+sudo apt-get install --no-install-recommends software-properties-common
+sudo add-apt-repository ppa:vbernat/haproxy-2.6
+sudo apt-get install haproxy=2.6.\*
+
+new_config=\
+"server {
+frontend haproxy-main
+    bind *:80
+    default_backend nginx_webservers    
+
+backend nginx_webservers
+    balance roundrobin
+    server 43071-web-01	100.25.205.198:80 check
+    server 43071-web-02	52.86.198.82:80 check
+}
+"
+echo "$new_config" > /etc/haproxy/haproxy.cfg
+sudo service haproxy start
